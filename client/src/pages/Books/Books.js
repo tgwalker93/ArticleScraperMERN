@@ -1,13 +1,13 @@
 import React, { Component } from "react";
-import DeleteBtn from "../../components/DeleteBtn";
 import Jumbotron from "../../components/Jumbotron";
+import DeleteBtn from "../../components/DeleteBtn";
 import API from "../../utils/API";
-import { Link } from "react-router-dom";
 import { Col, Row, Container } from "../../components/Grid";
 import { List, ListItem } from "../../components/List";
 import { Input, TextArea, FormBtn } from "../../components/Form";
 
 class Books extends Component {
+  // Setting our component's initial state
   state = {
     books: [],
     title: "",
@@ -15,10 +15,12 @@ class Books extends Component {
     synopsis: ""
   };
 
+  // When the component mounts, load all books and save them to this.state.books
   componentDidMount() {
     this.loadBooks();
   }
 
+  // Loads all books  and sets them to this.state.books
   loadBooks = () => {
     API.getBooks()
       .then(res =>
@@ -27,12 +29,14 @@ class Books extends Component {
       .catch(err => console.log(err));
   };
 
+  // Deletes a book from the database with a given id, then reloads books from the db
   deleteBook = id => {
     API.deleteBook(id)
       .then(res => this.loadBooks())
       .catch(err => console.log(err));
   };
 
+  // Handles updating component state when the user types into the input field
   handleInputChange = event => {
     const { name, value } = event.target;
     this.setState({
@@ -40,6 +44,8 @@ class Books extends Component {
     });
   };
 
+  // When the form is submitted, use the API.saveBook method to save the book data
+  // Then reload books from the database
   handleFormSubmit = event => {
     event.preventDefault();
     if (this.state.title && this.state.author) {
@@ -94,16 +100,18 @@ class Books extends Component {
             </Jumbotron>
             {this.state.books.length ? (
               <List>
-                {this.state.books.map(book => (
-                  <ListItem key={book._id}>
-                    <Link to={"/books/" + book._id}>
-                      <strong>
-                        {book.title} by {book.author}
-                      </strong>
-                    </Link>
-                    <DeleteBtn onClick={() => this.deleteBook(book._id)} />
-                  </ListItem>
-                ))}
+                {this.state.books.map(book => {
+                  return (
+                    <ListItem key={book._id}>
+                      <a href={"/books/" + book._id}>
+                        <strong>
+                          {book.title} by {book.author}
+                        </strong>
+                      </a>
+                      <DeleteBtn onClick={() => this.deleteBook(book._id)} />
+                    </ListItem>
+                  );
+                })}
               </List>
             ) : (
               <h3>No Results to Display</h3>
