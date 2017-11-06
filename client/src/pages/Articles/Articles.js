@@ -49,8 +49,6 @@ class Books extends Component {
         });
     };
 
-    // When the form is submitted, use the API.saveBook method to save the book data
-    // Then reload books from the database
     handleFormSubmit = event => {
         event.preventDefault();
         if (this.state.title && this.state.author) {
@@ -64,71 +62,18 @@ class Books extends Component {
         }
     };
 
-    // articleContainer = $("#articles");
-    // currentArticles = []
 
 
- newsScraper() {
-
-    // $.ajax({
-    //     method: "GET",
-    //     url: "/scrape"
-    // }).done(function (data) {
-    //     renderArticles();
-    // })
-
-    // API.scrape()
-    //     .then(res =>
-    //         this.setState({ articles: res.data, title: "", author: "", synopsis: "" })
-    //     )
-    //     .catch(err => console.log(err));
-
-}
-
-// $(document).on("click", ".btn.save", handleArticleSave);
-// $(document).on("click", ".scrape-new", handleArticleSaveAll);
-
- // Loads all books  and sets them to this.state.books
  loadArticles = () => {
      API.headlines()
          .then(data =>
-             this.setState({ articles: data.articles, title: "", author: "", synopsis: "" })
+            this.setState({ articles: data.data.articles, title: "", author: "", synopsis: "" })
+            // this.setState({ articles: data.articles, title: "", author: "", synopsis: "" })
+         
          )
          .catch(err => console.log(err));
  };
 
- start() {
-    // Empty the article container, run an AJAX request for any unsaved headlines
-     this.setState({articles: []});
-    // $.get("/api/headlines").then(function (data) {
-
-    //     //If we have headlines, render them to the page
-    //     if (data.articles && data.articles.length) {
-    //         currentArticles = data.articles;
-    //         renderArticles(data.articles);
-    //     }
-    //     else {
-    //         // Otherwise render a message explaing we have no articles
-    //         renderEmpty();
-    //     }
-    // });
-
-        API.headlines()
-            .then(function (data) {
-                //If we have headlines, render them to the page
-                if (data.articles && data.articles.length) {
-                    this.setState({ articles: data.articles, title: "", author: "", synopsis: "" })
-                    // this.renderArticles(data.articles);
-                }
-                else {
-                    // Otherwise render a message explaing we have no articles
-                    this.renderEmpty();
-                }
-            }
-        )
-        .catch(err => console.log(err));
-
-}
 
  renderArticles(articles) {
     // This function handles appending HTML containing our article data to the page
@@ -199,53 +144,6 @@ class Books extends Component {
     return emptyAlert;
 }
 
-//  handleArticleSave() {
-//     // This function is triggered when the user wants to save an article
-//     // When we rendered the article initially, we attatched a javascript object containing the headline id
-//     // to the element using the .data method. Here we retrieve that.
-//     var articleToSave = $(this).parents(".panel").data();
-//     articleToSave.saved = true;
-//     currentArticles[articleToSave.id].save = true;
-
-//     // Using a patch method to be semantic since this is an update to an existing record in our collection
-//     $.ajax({
-//         method: "POST",
-//         url: "/api/headlines",
-//         data: currentArticles[articleToSave.id]
-//     }).then(function (data) {
-//         // If successful, mongoose will send back an object containing a key of "ok" with the value of 1
-//         // (which casts to 'true')
-//         if (data.ok) {
-//             // Run the initPage function again. This will reload the entire list of articles
-//             initPage();
-//         }
-//     });
-
-// }
-
-
-//  handleArticleSaveAll() {
-//     // This function handles the user clicking any "scrape new article" buttons
-//     var currentArticlesObj = {
-//         articles: JSON.stringify(currentArticles)
-//     }
-
-//     $.ajax({
-//         method: "POST",
-//         url: "/api/saveAllArticles",
-//         data: currentArticlesObj
-//     }).then(function (data) {
-//         // If successful, mongoose will send back an object containing a key of "ok" with the value of 1
-//         // (which casts to 'true')
-//         if (data) {
-//             // Run the initPage function again. This will reload the entire list of articles
-//             //aaa
-//             initPage();
-//             bootbox.alert("<h3 class='text-center m-top-80'>" + data.message + "<h3>");
-//         }
-//     });
-
-// }
 
     render() {
         return (
@@ -288,6 +186,7 @@ class Books extends Component {
                         </Jumbotron>
                         {this.state.books.length ? (
                             <List>
+                                {console.log(this.state)}
                                 {this.state.books.map(book => {
                                     return (
                                         <ListItem key={book._id}>
@@ -312,7 +211,7 @@ class Books extends Component {
                     <ArticlesContainer>
                         {this.state.articles.map(article => {
                             return (
-                                <ArticlePanel title={article.title} link={article.link} summary={article.summary}>
+                                <ArticlePanel key={article.title} title={article.title} link={article.link} summary={article.summary}>
                                     
                                     <DeleteBtn onClick={() => this.deleteBook(article._id)} />
                                 </ArticlePanel>

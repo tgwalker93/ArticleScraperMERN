@@ -163,8 +163,8 @@ app.post("/api/headlines", function (req, res) {
 });
 
 //GET ALL THE HEADLINES
-app.get("/api/headlines", function (req, res) {
-
+app.get("/getHeadlines", function (req, res) {
+    console.log("I'm getting headlines");
     // First, we grab the body of the html with request
     request("http://www.nytimes.com/pages/todayspaper/index.html", function (error, response, html) {
 

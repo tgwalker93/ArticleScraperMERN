@@ -13,4 +13,9 @@ router
   .put(booksController.update)
   .delete(booksController.remove);
 
+router.route("/test")
+  .get(booksController.findAll)
+  .post(booksController.create);
+
+
 module.exports = router;

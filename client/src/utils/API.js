@@ -18,6 +18,6 @@ export default {
     return axios.post("/api/books", bookData);
   },
   headlines: function () {
-    return axios.get("/api/headlines");
+    return axios.get("api/articles/getHeadlines");
   }
 };
