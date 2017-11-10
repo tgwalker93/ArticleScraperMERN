@@ -2,6 +2,7 @@ import React from "react";
 // import Books from "./pages/Books";
 import Nav from "./components/Nav";
 import Articles from "./pages/Articles";
+import "./App.css";
 
 const App = () => 
   <div>

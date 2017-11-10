@@ -18,6 +18,9 @@ export default {
     return axios.post("/api/books", bookData);
   },
   headlines: function () {
-    return axios.get("api/articles/getHeadlines");
+    return axios.get("/api/articles/getHeadlines");
+  },
+  saveArticle: function() {
+    return axios.post("/api/headlines");
   }
 };

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Jumbotron from "../../components/Jumbotron";
 import DeleteBtn from "../../components/DeleteBtn";
+import SaveBtn from "../../components/SaveBtn";
 import API from "../../utils/API";
 import { Col, Row, Container } from "../../components/Grid";
 import { List, ListItem } from "../../components/List";
@@ -10,7 +11,7 @@ import ArticlesContainer from "../../components/ArticlesContainer";
 import ArticlePanel from "../../components/ArticlePanel";
 
 
-class Books extends Component {
+class Articles extends Component {
     // Setting our component's initial state
     state = {
         books: [],
@@ -18,6 +19,7 @@ class Books extends Component {
         author: "",
         synopsis: "",
         articles: [],
+        savedArticlesTab: false
     };
 
     // When the component mounts, load all books and save them to this.state.books
@@ -90,34 +92,8 @@ class Books extends Component {
     return articlePanels;
 }
 
- createPanel(article) {
-    // This functiont takes in a single JSON object for an article/headline
-    // It constructs a jQuery element containing all of the formatted HTML for the
-    // article panel
-    var panel =
-        [
-            "<div class='panel panel-default'>",
-            "<div class='panel-heading'>",
-            "<h3>",
-            "<a class='article-link' target='_blank' href='" + article.link + "'>",
-            article.title,
-            "</a>",
-            "<a class='btn btn-success save'>",
-            "Save Article",
-            "</a>",
-            "</h3>",
-            "</div>",
-            "<div class='panel-body'>",
-            article.summary,
-            "</div>",
-            "</div>"
-        ].join("")
+saveArticle(title){
 
-    // We attach the article's id to the jQuery element
-    // We will use this when trying to figure out which article the user wants to save
-    panel.data("id", article.id);
-    // We return the constructed panel jQuery element
-    return panel;
 }
 
  renderEmpty() {
@@ -148,80 +124,33 @@ class Books extends Component {
     render() {
         return (
             <Container fluid>
-                <Row>
-                    <Col size="md-6">
-                        <Jumbotron>
-                            <h1>What Books Should I Read?</h1>
-                        </Jumbotron>
-                        <form>
-                            <Input
-                                value={this.state.title}
-                                onChange={this.handleInputChange}
-                                name="title"
-                                placeholder="Title (required)"
-                            />
-                            <Input
-                                value={this.state.author}
-                                onChange={this.handleInputChange}
-                                name="author"
-                                placeholder="Author (required)"
-                            />
-                            <TextArea
-                                value={this.state.synopsis}
-                                onChange={this.handleInputChange}
-                                name="synopsis"
-                                placeholder="Synopsis (Optional)"
-                            />
-                            <FormBtn
-                                disabled={!(this.state.author && this.state.title)}
-                                onClick={this.handleFormSubmit}
-                            >
-                                Submit Book
-              </FormBtn>
-                        </form>
-                    </Col>
-                    <Col size="md-6">
-                        <Jumbotron>
-                            <h1>Books On My List</h1>
-                        </Jumbotron>
-                        {this.state.books.length ? (
-                            <List>
-                                {console.log(this.state)}
-                                {this.state.books.map(book => {
-                                    return (
-                                        <ListItem key={book._id}>
-                                            <a href={"/books/" + book._id}>
-                                                <strong>
-                                                    {book.title} by {book.author}
-                                                </strong>
-                                            </a>
-                                            <DeleteBtn onClick={() => this.deleteBook(book._id)} />
-                                        </ListItem>
-                                    );
-                                })}
-                            </List>
-                        ) : (
-                                <h3>No Results to Display</h3>
-                            )}
-                    </Col>
+                <Row> 
+                    <Jumbotron />
                 </Row>
                 <Row>
                     <Col size="md-12">
-                    
+                    {this.state.savedArticlesTab ? (
+                        <h3> Hello??? </h3>
+                    ) : (
+
                     <ArticlesContainer>
+                    {this.state.articles.length ? (
+                        <div>
                         {this.state.articles.map(article => {
                             return (
                                 <ArticlePanel key={article.title} title={article.title} link={article.link} summary={article.summary}>
-                                    
-                                    <DeleteBtn onClick={() => this.deleteBook(article._id)} />
+                                    <SaveBtn onClick={() => this.saveArticle(article)} />
                                 </ArticlePanel>
                             );
                         })}
-                           
-
-
+                        </div>
+                       )  : (
+                          <h3> No Results to Display </h3> 
+                      ) } 
                     </ArticlesContainer>
                 
+
+                            )}
     
 
                     </Col>
@@ -237,4 +166,4 @@ class Books extends Component {
     }
 }
 
-export default Books;
+export default Articles;
