@@ -3,6 +3,8 @@
 # MERN Article Scraper
 A Mern Stack Article scraper application that pulls articles from the New York Times and allows the user to save and add notes to it.
 
+## Status
+- #### WORK IN PROGRESS
 
 ### Prerequisites
 
