@@ -9,7 +9,7 @@ const Nav = () =>
       </div>
       <ul className="nav navbar-nav">
         <li className="active"><a href="/">Home</a></li>
-        <li><a onClick={Articles.state.savedArticlesTab=true}>Saved Articles</a></li>
+        <li><a href="/save">Saved Articles</a></li>
 
 
         <li><a className="btn btn-danger scrape-new">SAVE ALL ARTICLES!</a></li>
