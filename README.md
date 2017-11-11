@@ -38,7 +38,7 @@ yarn install
 cd client
 yarn install
 cd ..
-``
+```
 
 After both installations complete, run the following command in your terminal:
 
@@ -65,7 +65,7 @@ yarn build
 If all previous steps were followed correctly, your application should be deployed to Heroku!
 
 
-
+---
 
 
 [![HitCount](http://hits.dwyl.io/tgwalker93/ArticleScraperMERN.svg)](http://hits.dwyl.io/tgwalker93/ArticleScraperMERN)
