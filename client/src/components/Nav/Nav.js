@@ -1,6 +1,8 @@
 import React from "react";
 import "./Nav.css"
 import Articles from "../../pages/Articles"
+import { Link } from "react-router-dom";
+
 const Nav = () =>
   <nav className="navbar navbar-inverse">
     <div className="container-fluid">
@@ -8,8 +10,18 @@ const Nav = () =>
         <a className="navbar-brand" href="/">Mongo Scraper</a>
       </div>
       <ul className="nav navbar-nav">
-        <li className="active"><a href="/">Home</a></li>
-        <li><a href="/save">Saved Articles</a></li>
+        <li
+          className={window.location.pathname === "/saved" ? "active" : ""}
+        >
+          <Link to="/saved">Saved Articles</Link>
+        </li>
+        <li
+          className={window.location.pathname === "/" ? "active" : ""}
+        >
+          <Link to="/">Home</Link>
+        </li>
+        {/* <li className="active"><a href="/">Home</a></li> */}
+        {/* <li><a href="/save">Saved Articles</a></li> */}
 
 
         <li><a className="btn btn-danger scrape-new">SAVE ALL ARTICLES!</a></li>

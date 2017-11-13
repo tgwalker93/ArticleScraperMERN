@@ -128,7 +128,8 @@ app.delete("/api/headlines/:id", function (req, res) {
 )
 
 //RENDER SAVED ARTICLES
-app.get("/api/renderSaved", function (req, res) {
+app.get("/renderSavedArticles", function (req, res) {
+    console.log("i'm in render saved on the back end");
     Article.find({}, function (error, doc) {
         // Log any errors
         if (error) {
@@ -142,8 +143,10 @@ app.get("/api/renderSaved", function (req, res) {
 });
 
 //SAVE ARTICLE FOR WHEN USER CLICKS SAVE
-app.post("/api/headlines", function (req, res) {
+app.post("/saveArticle", function (req, res) {
+    console.log("I'm in save article post")
     var result = req.body;
+    console.log(result);
     // Using our Article model, create a new entry
     // This effectively passes the result object to the entry (and the title and link)
     var entry = new Article(result);
@@ -152,6 +155,7 @@ app.post("/api/headlines", function (req, res) {
     entry.save(function (err, doc) {
         // Log any errors
         if (err) {
+            console.log("OHH NO I HAVE AN ERORR")
             console.log(err);
         }
         // Or log the doc

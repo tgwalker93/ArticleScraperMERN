@@ -7,10 +7,10 @@ const ArticlesContainer = props => (
     <a className='article-link' target='_blank' href='" + article.link + "'>
     {props.title},
     </a>
-    <a className='btn btn-success save'>
+    {/* <a className='btn btn-success save'>
     Save Article
     {props.article}
-    </a>
+    </a> */}
     </h3>
     </div>
     <div className='panel-body'>

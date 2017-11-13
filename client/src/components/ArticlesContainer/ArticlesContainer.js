@@ -1,7 +1,7 @@
 import React from "react";
-import "./ArticleContainer.css";
+import "./ArticlesContainer.css";
 
-const ArticlesContainer = ({children}) => (
+export const ArticlesContainer = ({children}) => (
     <div id="wrapper">
         <h1>ARTICLES</h1>
         <div id="articles">
@@ -11,4 +11,4 @@ const ArticlesContainer = ({children}) => (
     </div>
 );
 
-export default ArticlesContainer
+// export default ArticlesContainer

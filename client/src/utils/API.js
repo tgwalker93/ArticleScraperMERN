@@ -20,7 +20,13 @@ export default {
   headlines: function () {
     return axios.get("/api/articles/getHeadlines");
   },
-  saveArticle: function() {
-    return axios.post("/api/headlines");
+  saveArticle: function(article) {
+    console.log("i'm in axios");
+    console.log(article)
+    return axios.post("/api/articles/saveArticle", article);
+  },
+  renderSavedArticles: function() {
+    console.log("i'm in render saved articles");
+    return axios.get("/api/articles/renderSavedArticles");
   }
 };
