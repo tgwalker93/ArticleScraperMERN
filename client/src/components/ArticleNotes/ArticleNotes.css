@@ -1,7 +1,3 @@
-.delete-btn {
-  float: right;
-  color: #e74944;
-}
   .panel {
     border-radius: 0;
     box-shadow: 3px 3px 20px lightslategrey;
@@ -35,7 +31,6 @@
     display: inline-block;
     width: 80%;
   }
-  
 
     .bootbox-body .btn {
     float: right;
@@ -50,3 +45,4 @@
     position: relative;
     bottom: 10px;
   }
+  

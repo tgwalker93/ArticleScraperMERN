@@ -4,9 +4,11 @@ import "./DeleteBtn.css";
 // The ...props means, spread all of the passed props onto this element
 // That way we don't have to define them all individually
 const DeleteBtn = props => (
-  <span className="delete-btn" {...props}>
-    X
-  </span>
+
+  <a className='btn btn-danger delete' {...props}>
+  Delete From Saved
+  </a>
+
 );
 
 export default DeleteBtn;
