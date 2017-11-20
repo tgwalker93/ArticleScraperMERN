@@ -6,6 +6,7 @@ const ArticleNotes = props => (
 
     <a className="btn btn-info notes" {...props}>
         Article Notes
+        {props.children}
         </a>
 );
 

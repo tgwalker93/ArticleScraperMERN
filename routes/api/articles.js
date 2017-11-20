@@ -37,7 +37,45 @@ app.delete("/api/notes/:id", function (req, res) {
     });
 
 });
-app.post("/api/notes", function (req, res) {
+
+
+app.delete("/deleteNote/:id", function (req, res) {
+    console.log("I'm in /deleteNote route on the back-end");
+    console.log(req.params.id);
+    Note.findByIdAndRemove(req.params.id, function (error, doc) {
+        // Log any errors
+        if (error) {
+            console.log(error);
+        }
+        else {
+            // Or send the document to the browser
+            console.log("I've successfully completed /deleteNote on the back-end");
+            res.send(doc);
+        }
+    });
+
+});
+
+
+
+app.delete("/deleteArticle/:id", function (req, res) {
+    console.log("I'm in /deleteArticle route on the back-end");
+    console.log(req.params.id);
+    Article.findByIdAndRemove(req.params.id, function (error, doc) {
+        // Log any errors
+        if (error) {
+            console.log(error);
+        }
+        else {
+            // Or send the document to the browser
+            console.log("I've successfully completed /deleteArticle on the back-end");
+            res.send(doc);
+        }
+    });
+
+});
+
+app.post("/saveNote", function (req, res) {
     // Create a new note and pass the req.body to the entry
     var newNote = new Note(req.body);
 
@@ -60,12 +98,35 @@ app.post("/api/notes", function (req, res) {
                     }
                     else {
                         // Or send the document to the browser
+                        console.log(doc);
                         res.send(doc);
                     }
                 });
         }
     });
 
+});
+//SEARCH NOTES BY ARTICLE ID
+app.get("/getNotes", function (req, res) {
+    // Using the id passed in the id parameter, prepare a query that finds the matching one in our db...
+    console.log(req.body)
+    article = req.body
+    Article.findOne({ "_id": req.body._id })
+        // ..and populate all of the notes associated with it
+        .populate("notes")
+        // now, execute our query
+        .exec(function (error, doc) {
+            // Log any errors
+            if (error) {
+                console.log(error);
+            }
+            // Otherwise, send the doc to the browser as a json object
+            else {
+                console.log("I've successfuly completed back-end route /getNotes");
+                console.log(doc)
+                res.json(doc);
+            }
+        });
 });
 
 //SEARCH NOTES BY ARTICLE ID

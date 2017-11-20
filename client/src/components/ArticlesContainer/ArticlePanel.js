@@ -5,7 +5,7 @@ export const ArticlePanel = props => (
     <div className='panel-heading'>
     <h3>
     <a className='article-link' target='_blank' href={props.link}>
-    {props.title},
+    {props.title}
     </a>
     {props.children}
     </h3>

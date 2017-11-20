@@ -28,5 +28,23 @@ export default {
   renderSavedArticles: function() {
     console.log("i'm in render saved articles");
     return axios.get("/api/articles/renderSavedArticles");
+  },
+  saveNote: function(note) {
+    console.log("i'm in API");
+    return axios.post("/api/articles/saveNote", note);
+  },
+  getNotes: function(article) {
+    console.log("i'm in API front-end")
+    return axios.get("/api/articles/getNotes", article)
+  },
+  deleteNote: function (note) {
+    console.log("i'm in API front-end")
+    console.log(note);
+    return axios.delete("/api/articles/deleteNote/" + note._id);
+  },
+  deleteArticle: function(article) {
+    console.log("I'm in API front-end") 
+    console.log(article) 
+    return axios.delete("/api/articles/deleteArticle/" + article._id);
   }
 };
