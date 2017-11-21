@@ -67,15 +67,6 @@ class savedArticles extends Component {
             .catch(err => console.log(err));
     }
 
-    // deleteArticle() {
-    //     console.log("i'm in deleteArticle");
-    //     return (
-    //         <Modal>
-    //             <h1>Modal Content</h1>
-    //             <p>Etc.</p>
-    //         </Modal >
-    //     )
-    // }
 
     addArticleNote() {
         console.log("I've entered addArticleNote()")
@@ -120,11 +111,19 @@ class savedArticles extends Component {
         API.deleteArticle(article)
             .then(res => {
                 console.log("I've successfully completed deleteArticle!")
-                window.location.reload()
+                this.deletePanel(article);
             })
             .catch(err => console.log(err));
     }
 
+    deletePanel(article) {
+        const newState = this.state.savedArticles;
+        if (newState.indexOf(article) > -1) {
+                newState.splice(newState.indexOf(article), 1);
+                this.setState({ savedArticles: newState })
+            }
+        
+    }
 
     render() {
         return (
@@ -187,11 +186,13 @@ class savedArticles extends Component {
                             <ArticlesContainer>
                                 <div>
                                     {this.state.savedArticles.map(article => {
+
+                                        {if (article._id) {
                                         let boundItemClick = this.openModal.bind(this, article);
                                         let boundDeleteClick = this.deleteArticle.bind(this, article);
                                         return (
                                             
-                                            <ArticlePanel key={article.title} title={article.title} link={article.link} summary={article.summary}>
+                                            <ArticlePanel key={article.id} title={article.title} link={article.link} summary={article.summary}>
                                                 <div>
                                                 <ArticleNotes onClick={boundItemClick}>
                                                 
@@ -203,7 +204,16 @@ class savedArticles extends Component {
 
                                             </ArticlePanel>
                                         );
+
+
+
+
+                                        }
+                                        }
+                                    
                                     })}
+
+                                
                                 </div>
                             </ArticlesContainer>
                         ) : (

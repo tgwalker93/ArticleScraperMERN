@@ -100,7 +100,7 @@ saveArticle(article){
     console.log(article)
     API.saveArticle(article)
         .then(data => {
-            console.log("I'm in then");
+           this.deletePanel(article);
         }
             
         // this.setState({ articles: data.articles, title: "", author: "", synopsis: "" })
@@ -110,6 +110,16 @@ saveArticle(article){
 }
 
 
+    deletePanel(article) {
+        console.log("i'm in deletePanel!")
+        console.log(article);
+        const newState = this.state.articles;
+        if (newState.indexOf(article) > -1) {
+            newState.splice(newState.indexOf(article), 1);
+            this.setState({ articles: newState })
+        }
+
+    }
     render() {
         return (
             <Container fluid>
@@ -122,11 +132,25 @@ saveArticle(article){
                     <ArticlesContainer>
                         <div>
                         {this.state.articles.map(article => {
+                            
+
+                   
+
+                            
+
+
+
+                            let boundArticleClick = this.saveArticle.bind(this, article);
                             return (
                                 <ArticlePanel key={article.title} title={article.title} link={article.link} summary={article.summary}>
-                                    <SaveBtn onClick={() => this.saveArticle(article)} />
+                                    <SaveBtn onClick={boundArticleClick} />
                                 </ArticlePanel>
                             );
+
+                                        
+                        
+
+
                         })}
                         </div>
                     </ArticlesContainer>
