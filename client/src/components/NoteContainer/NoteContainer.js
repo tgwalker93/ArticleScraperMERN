@@ -1,5 +1,5 @@
 import React from "react";
-import "./ArticlePanel.css";
+
 
 export const NoteContainer = ({ children }) => (
     <div id="wrapper">

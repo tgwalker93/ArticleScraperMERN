@@ -1,9 +1,8 @@
 import React from "react";
-import "./ArticlesContainer.css";
 
 export const ArticlesContainer = ({children}) => (
     <div id="wrapper">
-        <h1>ARTICLES</h1>
+        <h1></h1>
         <div id="articles">
             {children}
         </div>

@@ -1,5 +1,4 @@
 import React from "react";
-import "./Nav.css"
 import Articles from "../../pages/Articles"
 import { Link } from "react-router-dom";
 
