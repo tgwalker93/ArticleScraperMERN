@@ -6,7 +6,7 @@ const Nav = () =>
   <nav className="navbar navbar-inverse">
     <div className="container-fluid">
       <div className="navbar-header">
-        <a className="navbar-brand" href="/">Mongo Scraper</a>
+        <a className="navbar-brand" href="/">MERN Stack Scraper</a>
       </div>
       <ul className="nav navbar-nav">
         <li

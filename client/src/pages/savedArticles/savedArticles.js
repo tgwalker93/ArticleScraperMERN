@@ -141,14 +141,15 @@ class savedArticles extends Component {
           <hr />
           <ul className='list-group note-container'>
           </ul>
+        <div>
         <textarea placeholder='New Note' rows='4' cols='60' 
         value={this.state.articleNote}              
         onChange={this.handleInputChange}
         name="articleNote">
-        
         </textarea>
+        </div>
          <button className='btn btn-success save' onClick={() => this.addArticleNote()}>Save Note</button>
-        <button className='btn btn-success save' onClick={() => this.closeModal()}>X</button>
+        <button className='btn btn-danger note-delete noteModal' onClick={() => this.closeModal()}>X</button>
         
           </div>
 
@@ -163,8 +164,10 @@ class savedArticles extends Component {
                                             <div>
                                                 
 
-                                                <button className='btn btn-danger note-delete' onClick={boundNoteClick}> X </button>
+                                                {/* <button className='btn btn-danger note-delete' onClick={boundNoteClick}> X </button> */}
+                                                
 
+                                                <button className='btn btn-danger note-delete insideNote' onClick={boundNoteClick}> X </button> 
                                             </div>
 
                                         </NotePanel>
@@ -173,7 +176,7 @@ class savedArticles extends Component {
                             </div>
                         </NoteContainer>
                     ) : (
-                            <h3> There are no saved articles! </h3>
+                            <h3> There are no saved notes! </h3>
                         )}
                 </Modal>
 
