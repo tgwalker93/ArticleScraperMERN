@@ -4,7 +4,7 @@ const Footer = () => (
 
     <footer className="footer">
         <div className="container">
-            <p>New York Times Mongo Scraper</p>
+            <p>New York Times MERN Stack Article Scraper</p>
         </div>
     </footer>
 );

@@ -1,12 +1,8 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
 import Jumbotron from "../../components/Jumbotron";
-import DeleteBtn from "../../components/DeleteBtn";
 import SaveBtn from "../../components/SaveBtn";
 import API from "../../utils/API";
 import { Col, Row, Container } from "../../components/Grid";
-import { List, ListItem } from "../../components/List";
-import { Input, TextArea, FormBtn } from "../../components/Form";
 import Footer from "../../components/Footer";
 import {ArticlesContainer, ArticlePanel} from "../../components/ArticlesContainer";
 
@@ -15,14 +11,7 @@ import {ArticlesContainer, ArticlePanel} from "../../components/ArticlesContaine
 class Articles extends Component {
     // Setting our component's initial state
     state = {
-        books: [],
-        title: "",
-        author: "",
-        synopsis: "",
-        articles: [],
-        savedArticles: [],
-        currentArticle: [],
-        savedArticlesTab: false
+        articles: []
     };
 
     // When the component mounts, load all books and save them to this.state.books
@@ -30,21 +19,6 @@ class Articles extends Component {
         this.loadArticles();
     }
 
-    // Loads all books  and sets them to this.state.books
-    loadBooks = () => {
-        API.getBooks()
-            .then(res =>
-                this.setState({ books: res.data, title: "", author: "", synopsis: "" })
-            )
-            .catch(err => console.log(err));
-    };
-
-    // Deletes a book from the database with a given id, then reloads books from the db
-    deleteBook = id => {
-        API.deleteBook(id)
-            .then(res => this.loadBooks())
-            .catch(err => console.log(err));
-    };
 
     // Handles updating component state when the user types into the input field
     handleInputChange = event => {
@@ -70,13 +44,14 @@ class Articles extends Component {
 
 
  loadArticles = () => {
-     API.headlines()
-         .then(data =>
-            this.setState({ articles: data.data.articles, title: "", author: "", synopsis: "" })
-            // this.setState({ articles: data.articles, title: "", author: "", synopsis: "" })
-         
-         )
-         .catch(err => console.log(err));
+         API.headlines()
+             .then(data =>
+                 this.setState({ articles: data.data.articles, title: "", author: "", synopsis: "" })
+             // this.setState({ articles: data.articles, title: "", author: "", synopsis: "" })
+
+             )
+             .catch(err => console.log(err));
+     
  };
 
 
@@ -91,28 +66,16 @@ class Articles extends Component {
     }
     // Once we have all of the HTML for the articles stored in our articlePanels array,
     // append them to the articlePanels container
-    // articleContainer.append(articlePanels);
     return articlePanels;
 }
 
 saveArticle(article){
-    console.log("I'm in save article");
-    console.log(article)
+    this.deletePanel(article);
     API.saveArticle(article)
-        .then(data => {
-           this.deletePanel(article);
-        }
-            
-        // this.setState({ articles: data.articles, title: "", author: "", synopsis: "" })
-
-        )
         .catch(err => console.log(err));
 }
 
-
     deletePanel(article) {
-        console.log("i'm in deletePanel!")
-        console.log(article);
         const newState = this.state.articles;
         if (newState.indexOf(article) > -1) {
             newState.splice(newState.indexOf(article), 1);
@@ -132,12 +95,6 @@ saveArticle(article){
                     <ArticlesContainer>
                         <div>
                         {this.state.articles.map(article => {
-                            
-
-                   
-
-                            
-
 
 
                             let boundArticleClick = this.saveArticle.bind(this, article);
@@ -160,11 +117,9 @@ saveArticle(article){
 
                     </Col>
                 </Row>
-                <Row>
-                    <Col size="md-12">
+      
                     <Footer />
-                    </Col>
-                </Row>
+        
 
             </Container>
         );

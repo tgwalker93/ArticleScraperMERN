@@ -1,32 +1,48 @@
 import React, { Component } from "react";
-import ReactDOM from 'react-dom';
 import Modal from 'react-modal';
-import { Link } from "react-router-dom";
 import Jumbotron from "../../components/Jumbotron";
 import DeleteBtn from "../../components/DeleteBtn";
-import SaveBtn from "../../components/SaveBtn";
 import ArticleNotes from "../../components/ArticleNotes";
 import API from "../../utils/API";
 import { Col, Row, Container } from "../../components/Grid";
-import { List, ListItem } from "../../components/List";
-import { Input, TextArea, FormBtn } from "../../components/Form";
 import Footer from "../../components/Footer";
 import {ArticlesContainer, ArticlePanel} from "../../components/ArticlesContainer";
 import { NoteContainer, NotePanel } from "../../components/NoteContainer";
-import "./savedArticles.css";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+
+const modalCustomStyles = {
+    overlay: {
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        backgroundColor: 'rgba(255, 255, 255, 0.75)',
+        zIndex: 1000000000000
+    },
+    content: {
+        //Sample Styles
+        // height: '800px',
+        // width: '800px',
+        // position: 'fixed',
+        // top: '50%',
+        // left: '50%',
+        // right: 'auto',
+        // bottom: 'auto',
+        // marginRight: '-50%',
+        // transform: 'translate(-50%, -50%)',
+        // zIndex: '1000',
+        // overflow: 'auto',
+        // backgroundColor: '#eb6864'
+    }
+};
 
 class savedArticles extends Component {
     state = {
         savedArticles: [],
         isModalOpen: false,
         articleNote: "",
-        savedArticleNotes: {
-            
-        },
         currentArticle: null,
-        currentArticleNotes: null
-
+        currentArticleNotes: []
     };
     componentDidMount() {
         this.loadSavedArticles();
@@ -34,10 +50,7 @@ class savedArticles extends Component {
     }
 
     openModal(article, e) {
-        console.log("openModal was called");
-        console.log(article)
-        console.log(e)
-        this.setState({isModalOpen: true, currentArticle: article});
+        this.setState({isModalOpen: true, currentArticle: article, articleNote: ""});
         this.renderArticleNotes(article)
     }
     closeModal() {
@@ -54,14 +67,10 @@ class savedArticles extends Component {
     loadSavedArticles() {
         API.renderSavedArticles()
             .then(data => {
-                console.log("i'm in rendersaved then");
-                console.log(data);
-                console.log(data.data)
-                this.setState({ savedArticles: data.data, title: "", author: "", synopsis: "" })
+                this.setState({ savedArticles: data.data })
 
             }
                 
-            // this.setState({ articles: data.articles, title: "", author: "", synopsis: "" })
 
             )
             .catch(err => console.log(err));
@@ -69,24 +78,18 @@ class savedArticles extends Component {
 
 
     addArticleNote() {
-        console.log("I've entered addArticleNote()")
-        console.log(this.state.articleNote);
-        let articleNote =  {
-            noteText: this.state.articleNote
-        }
+        let currentArticle = this.state.currentArticle;
+        currentArticle.noteText = this.state.articleNote;
         if (this.state.articleNote) {
-            API.saveNote(articleNote)
+            API.saveNote(currentArticle)
                 .then(res => this.renderArticleNotes(this.state.currentArticle))
                 .catch(err => console.log(err));
         }
 
     };
     renderArticleNotes(article) {
-        console.log("I've successfully made it to renderArticleNotes!!!")
         API.getNotes(article)
             .then(res => {
-                console.log("I've successfully completed API.getNotes in renderArticleNotes, here is the notes");
-                console.log(res.data.notes)
                 this.setState({
                     currentArticleNotes: res.data.notes
                 })
@@ -95,22 +98,16 @@ class savedArticles extends Component {
     }
 
     deleteNote(note) {
-        console.log("i'm in deleteNote");
-        console.log(note);
         API.deleteNote(note)
                 .then(res => {
-                    console.log("I've successfully completed deleteNote!")
-                    this.renderArticleNotes();
+                    this.renderArticleNotes(this.state.currentArticle);
                 })
                 .catch(err => console.log(err));
         
     }
     deleteArticle(article) {
-        console.log("i'm successfully in delete Article!");
-        console.log(article);
         API.deleteArticle(article)
             .then(res => {
-                console.log("I've successfully completed deleteArticle!")
                 this.deletePanel(article);
             })
             .catch(err => console.log(err));
@@ -124,7 +121,6 @@ class savedArticles extends Component {
             }
         
     }
-
     render() {
         return (
             <Container fluid>
@@ -132,12 +128,11 @@ class savedArticles extends Component {
                     <Jumbotron />
                 </Row>
                 <Modal
+                    style = {modalCustomStyles}
                     isOpen={this.state.isModalOpen}
-/*                     className="modal-articleNotes" */
-                    // style={this.state.style.content}
                 >
                     <div className='container-fluid text-center'>
-          <h4>Notes For Article: </h4>
+          <h1 className="notesHeader">Notes </h1>
           <hr />
           <ul className='list-group note-container'>
           </ul>
@@ -154,19 +149,14 @@ class savedArticles extends Component {
           </div>
 
 
-                    {this.state.currentArticleNotes ? (
+                    {this.state.currentArticleNotes.length ? (
                         <NoteContainer>
-                            <div>
+                            <div className="articleNoteContainer">
                                 {this.state.currentArticleNotes.map(note => {
                                     let boundNoteClick = this.deleteNote.bind(this, note);
                                     return (
-                                        <NotePanel noteText={note.noteText}>
+                                        <NotePanel key={note._id} noteText={note.noteText}>
                                             <div>
-                                                
-
-                                                {/* <button className='btn btn-danger note-delete' onClick={boundNoteClick}> X </button> */}
-                                                
-
                                                 <button className='btn btn-danger note-delete insideNote' onClick={boundNoteClick}> X </button> 
                                             </div>
 
@@ -183,19 +173,17 @@ class savedArticles extends Component {
                 <Row>
                     <Col size="md-12">
 
-
-
                         {this.state.savedArticles.length ? (
                             <ArticlesContainer>
                                 <div>
                                     {this.state.savedArticles.map(article => {
 
-                                        {if (article._id) {
+                                        if (article._id) {
                                         let boundItemClick = this.openModal.bind(this, article);
                                         let boundDeleteClick = this.deleteArticle.bind(this, article);
                                         return (
                                             
-                                            <ArticlePanel key={article.id} title={article.title} link={article.link} summary={article.summary}>
+                                            <ArticlePanel key={article._id} title={article.title} link={article.link} summary={article.summary}>
                                                 <div>
                                                 <ArticleNotes onClick={boundItemClick}>
                                                 
@@ -211,8 +199,10 @@ class savedArticles extends Component {
 
 
 
+                                        } else{
+                                            return null;
                                         }
-                                        }
+                                        
                                     
                                     })}
 
@@ -225,11 +215,9 @@ class savedArticles extends Component {
 
                     </Col>
                 </Row>
-                <Row>
-                    <Col size="md-12">
+             
                         <Footer />
-                    </Col>
-                </Row>
+          
 
             </Container>
         );

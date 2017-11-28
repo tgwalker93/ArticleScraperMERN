@@ -11,7 +11,8 @@ const Jumbotron = ({ children }) =>
     <div className="background-image">
     </div>
     <div className="caption">
-      <h1>Mongo Scraper</h1>
+   
+      <h1>MERN Stack Article Scraper</h1>
       <p>New York Times Edition</p>
     </div>
   </div>

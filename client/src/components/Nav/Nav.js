@@ -1,9 +1,8 @@
 import React from "react";
-import Articles from "../../pages/Articles"
 import { Link } from "react-router-dom";
 
 const Nav = () =>
-  <nav className="navbar navbar-inverse">
+  <nav className="navbar navbar-inverse navbar-fixed-top">
     <div className="container-fluid">
       <div className="navbar-header">
         <a className="navbar-brand" href="/">MERN Stack Scraper</a>
@@ -17,13 +16,8 @@ const Nav = () =>
         <li
           className={window.location.pathname === "/" ? "active" : ""}
         >
-          <Link to="/">Home</Link>
+          <Link to="/">New Articles</Link>
         </li>
-        {/* <li className="active"><a href="/">Home</a></li> */}
-        {/* <li><a href="/save">Saved Articles</a></li> */}
-
-
-        <li><a className="btn btn-danger scrape-new">SAVE ALL ARTICLES!</a></li>
       </ul>
     </div>
   </nav>
