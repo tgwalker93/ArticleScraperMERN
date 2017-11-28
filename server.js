@@ -16,13 +16,17 @@ app.use(routes);
 
 // Set up promises with mongoose
 mongoose.Promise = global.Promise;
+
+
+
 // Connect to the Mongo DB
-mongoose.connect(
-  process.env.MONGODB_URI || "mongodb://localhost/reactArticles2",
-  {
-    useMongoClient: true
-  }
-);
+mongoose.connect("mongodb://heroku_735vpqdl:5udh8oihp4s2k6872a9m5r922@ds039115.mlab.com:39115/heroku_735vpqdl");
+// mongoose.connect(
+//   process.env.MONGODB_URI || "mongodb://localhost/reactArticles2",
+//   {
+//     useMongoClient: true
+//   }
+// );
 
 var db = mongoose.connection;
 
