@@ -1,17 +1,7 @@
 ![https://github.com/tgwalker93/ArticleScraperMERN/blob/master/client/src/images/newspaper.jpg](https://github.com/tgwalker93/ArticleScraperMERN/blob/master/client/src/images/newspaper.jpg)
 
 # MERN Article Scraper
-A Mern Stack Article scraper application that pulls articles from the New York Times and allows the user to save and add notes to it.
-
-## Status
-- #### WORK IN PROGRESS
-
-### Prerequisites
-
-In order to start this program, you will need the following software downloaded: 
-* [Mongo](https://www.mongodb.com/)
-* [Node.js](https://nodejs.org/en/docs/)
-* [React](https://reactjs.org/docs/hello-world.html)
+A `NodeJS`, `MongoDB`, `Express`, and `ReactJS` application that pulls articles from the New York Times and allows the user to save and add notes to it. This application uses cheerio to scrape new articles from nytimes.com.
 
 
 ## Built With
