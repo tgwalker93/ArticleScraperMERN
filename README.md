@@ -3,6 +3,7 @@
 # MERN Article Scraper
 A `NodeJS`, `MongoDB`, `Express`, and `ReactJS` application that pulls articles from the New York Times and allows the user to save and add notes to it. This application uses cheerio to scrape new articles from nytimes.com.
 
+This application is live on Heroku. [Click here to view](https://mernarticlescraper.herokuapp.com/) 
 
 ## Built With
 
