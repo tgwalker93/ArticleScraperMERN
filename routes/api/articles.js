@@ -194,7 +194,7 @@ app.get("/bloomberg", function(req, res) {
 //GET ALL THE HEADLINES From the Nytimes
 app.get("/getHeadlines", function (req, res) {
     // First, we grab the body of the html with request
-    request("http://www.nytimes.com", function (error, response, html) {
+    request("https://www.nytimes.com/", function (error, response, html) {
 
         // If the request is successful
         if (!error && response.statusCode === 200) {
@@ -212,11 +212,12 @@ app.get("/getHeadlines", function (req, res) {
 
                 }
                 // Add the text and href of every link, and save them as properties of the result object
-                article.title = $(this).children("h2").text();
-                article.link = $(this).children("h2").children("a").attr("href");
-                article.summary = $(this).children(".summary").text();
+                article.title = $(this).find("h2").text();
+                article.link = "https://www.nytimes.com" + $(this).find("a").attr("href");
+                article.summary = $(this).find("p").text();
                 article.isSaved = false;
                 article.id = i;
+
                 if(article.title && article.link && article.summary) {
                     result.articles.push(article);
                 }
@@ -228,7 +229,7 @@ app.get("/getHeadlines", function (req, res) {
 
 
             //end of request
-        }
+        } 
     })
 
 });
