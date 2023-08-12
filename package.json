@@ -25,9 +25,12 @@
     "elemental": "^0.6.1",
     "express": "^4.15.4",
     "mongoose": "^4.11.7",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "react-modal": "^3.1.2",
     "react-router": "^4.2.0",
     "react-router-dom": "^4.1.2",
+    "react-scripts": "^5.0.1",
     "request": "^2.83.0"
   }
 }
