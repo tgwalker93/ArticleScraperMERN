@@ -20,7 +20,7 @@ mongoose.Promise = global.Promise;
 
 
 // Connect to the Mongo DB
-mongoose.connect("mongodb://heroku_735vpqdl:5udh8oihp4s2k6872a9m5r922@ds039115.mlab.com:39115/heroku_735vpqdl");
+mongoose.connect("mongodb+srv://tgwalker93:Mario626@cluster0.ek2iseo.mongodb.net/?retryWrites=true&w=majority");
 // mongoose.connect(
 //   process.env.MONGODB_URI || "mongodb://localhost/reactArticles2",
 //   {
