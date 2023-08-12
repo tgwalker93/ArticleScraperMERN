@@ -195,24 +195,24 @@ app.get("/bloomberg", function(req, res) {
 app.get("/getHeadlines", function (req, res) {
     // First, we grab the body of the html with request
     request("https://www.nytimes.com/", function (error, response, html) {
-
         // If the request is successful
         if (!error && response.statusCode === 200) {
             // Then, we load that into cheerio and save it to $ for a shorthand selector
             var $ = cheerio.load(html);
+
             // Now, we grab every h2 within an article tag, and do the following:
             // Save an empty result object
             var result = {
                 articles: []
             };
 
-            $("article").each(function (i, element) {
+            $("section").each(function (i, element) {
                 
                 var article = {
 
                 }
                 // Add the text and href of every link, and save them as properties of the result object
-                article.title = $(this).find("h2").text();
+                article.title = $(this).find("h3").text();
                 article.link = "https://www.nytimes.com" + $(this).find("a").attr("href");
                 article.summary = $(this).find("p").text();
                 article.isSaved = false;
