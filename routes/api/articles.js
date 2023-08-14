@@ -22,92 +22,80 @@ const router = require("express").Router();
 //Notes Routes BEGIN ---------------------------------------------------------------
 
 //DELETE A NOTE
-app.delete("/deleteNote/:id", function (req, res) {
-    Note.findByIdAndRemove(req.params.id, function (error, doc) {
-        // Log any errors
-        if (error) {
-            console.log(error);
-        }
-        else {
-            // Or send the document to the browser
-            res.send(doc);
-        }
-    });
-
-});
+app.delete("/deleteNote/:id", async (req, res) => {
+    try {
+      const deletedNote = await Note.findByIdAndDelete(req.params.id);
+  
+      if (!deletedNote) {
+        return res.status(404).json({ error: "Note not found." });
+      }
+  
+      res.json(deletedNote);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: "An error occurred while deleting the note." });
+    }
+  });
 
 
 //DELETE AN ARTICLE
-app.delete("/deleteArticle/:id", function (req, res) {
-    Article.findByIdAndRemove(req.params.id, function (error, doc) {
-        // Log any errors
-        if (error) {
-            console.log(error);
-        }
-        else {
-            // Or send the document to the browser
-            res.send(doc);
-        }
-    });
-
-});
+app.delete("/deleteArticle/:id", async (req, res) => {
+    try {
+      const deletedArticle = await Article.findByIdAndDelete(req.params.id);
+  
+      if (!deletedArticle) {
+        return res.status(404).json({ error: "Article not found." });
+      }
+  
+      res.json(deletedArticle);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: "An error occurred while deleting the article." });
+    }
+  });
 
 //SAVE A NOTE
-app.post("/saveNote", function (req, res) {
-    // Create a new note and pass the req.body to the entry
-    let result = {
+app.post("/saveNote", async (req, res) => {
+    try {
+      const noteData = {
         title: req.body.noteText,
-        noteText: req.body.noteText
+        noteText: req.body.noteText,
+      };
+  
+      const newNote = new Note(noteData);
+      const savedNote = await newNote.save();
+  
+      await Article.findOneAndUpdate(
+        { "_id": req.body._id },
+        { $push: { "notes": savedNote._id } },
+        { safe: true, upsert: true }
+      );
+  
+      res.json(savedNote);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: "An error occurred while saving the note." });
     }
-    var newNote = new Note(result);
-
-    // And save the new note the db
-    newNote.save(function (error, doc) {
-        // Log any errors
-        if (error) {
-            console.log(error);
-        }
-        // Otherwise
-        else {
-            // Use the article id to find and update it's note
-            Article.findOneAndUpdate({ "_id": req.body._id }, { $push: { "notes": doc._id } },
-                { safe: true, upsert: true })
-                // Execute the above query
-                .exec(function (err, doc) {
-                    // Log any errors
-                    if (err) {
-                        console.log(err);
-                    }
-                    else {
-                        // Or send the document to the browser
-                        res.send(doc);
-                    }
-                });
-        }
-    });
-
-});
+  });
 
 
 //SEARCH NOTES BY ARTICLE ID
-app.get("/getNotes/:id", function (req, res) {
-    // Using the id passed in the id parameter, prepare a query that finds the matching one in our db...
-    article = req.body
-    Article.findOne({ "_id": req.params.id })
-        // ..and populate all of the notes associated with it
+app.get("/getNotes/:id", async (req, res) => {
+    try {
+      const article = await Article.findOne({ "_id": req.params.id })
         .populate("notes")
-        // now, execute our query
-        .exec(function (error, doc) {
-            // Log any errors
-            if (error) {
-                console.log(error);
-            }
-            // Otherwise, send the doc to the browser as a json object
-            else {
-                res.json(doc);
-            }
-        });
-});
+        .exec();
+  
+      if (!article) {
+        return res.status(404).json({ error: "Article not found." });
+      }
+  
+      res.json(article);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: "An error occurred while fetching notes." });
+    }
+  });
 
 //NOTES END -----------------------------------------------------------
 
@@ -116,42 +104,39 @@ app.get("/getNotes/:id", function (req, res) {
 
 
 //RENDER SAVED ARTICLES
-app.get("/renderSavedArticles", function (req, res) {
-    Article.find({}, function (error, doc) {
-        // Log any errors
-        if (error) {
-            console.log(error);
-        }
-        // Or send the doc to the browser as a json object
-        else {
-            res.json(doc);
-        }
-    });
-});
+app.get("/renderSavedArticles", async (req, res) => {
+    try {
+      const articles = await Article.find({});
+      res.json(articles);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: "An error occurred while fetching saved articles." });
+    }
+  });
 
 //SAVE ARTICLE FOR WHEN USER CLICKS SAVE
-app.post("/saveArticle", function (req, res) {
+app.post("/saveArticle", async (req, res) => {
     var result = req.body;
     // Using our Article model, create a new entry
     // This effectively passes the result object to the entry (and the title and link)
-    var entry = new Article(result);
-
-    // Now, save that entry to the db
-    entry.save(function (err, doc) {
-        // Log any errors
-        if (err) {
-            console.log(err);
-        }
-        // Or log the doc
-        else {
-            console.log(doc);
-        }
-    });
+    try {
+        // Create a new entry using the Article model
+        const entry = new Article(result);
+    
+        // Save the entry to the database
+        const savedEntry = await entry.save();
+    
+        console.log(savedEntry);
+        res.status(201).json(savedEntry); // Respond with the saved entry
+      } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: "An error occurred while saving the article." });
+      }
 
 });
 
 //GET ALL THE BLOOMBERG HEADLINES (NOT IN USE) 
-app.get("/bloomberg", function(req, res) {
+app.get("/bloomberg", async (req, res) => {
     console.log("I'm getting bloomberg headlines");
     // First, we grab the body of the html with request
     request("http://www.bloomberg.com", function (error, response, html) {
@@ -192,7 +177,7 @@ app.get("/bloomberg", function(req, res) {
 });
 
 //GET ALL THE HEADLINES From the Nytimes
-app.get("/getHeadlines", function (req, res) {
+app.get("/getHeadlines", async (req, res) => {
     // First, we grab the body of the html with request
     request("https://www.nytimes.com/", function (error, response, html) {
         // If the request is successful

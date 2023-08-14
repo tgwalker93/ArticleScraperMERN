@@ -5,6 +5,8 @@ var Schema = mongoose.Schema;
 
 // Create article schema
 var ArticleSchema = new Schema({
+     _id: Number, // Define _id explicitly as a Number,
+
     // title is a required string
     title: {
         type: String,
