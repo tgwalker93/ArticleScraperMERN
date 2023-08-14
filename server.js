@@ -21,12 +21,6 @@ mongoose.Promise = global.Promise;
 
 // Connect to the Mongo DB
 mongoose.connect("mongodb+srv://tgwalker93:Mario626@cluster0.ek2iseo.mongodb.net/?retryWrites=true&w=majority");
-// mongoose.connect(
-//   process.env.MONGODB_URI || "mongodb://localhost/reactArticles2",
-//   {
-//     useMongoClient: true
-//   }
-// );
 
 var db = mongoose.connection;
 
