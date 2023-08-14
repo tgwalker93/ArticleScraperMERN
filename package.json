@@ -14,7 +14,6 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@babel/plugin-proposal-private-property-in-object": "^1.0.0", 
     "concurrently": "^3.5.0",
     "nodemon": "^1.11.0"
   },
