@@ -13,14 +13,19 @@ app.use(express.static("client/build"));
 // Add routes, both API and view
 app.use(routes);
 
-
 // Set up promises with mongoose
 mongoose.Promise = global.Promise;
 
-
+const MONGO_LOCAL_URL = 'mongodb://localhost:27017/mernarticlescraper'
 
 // Connect to the Mongo DB
-mongoose.connect("mongodb+srv://tgwalker93:Mario626@cluster0.ek2iseo.mongodb.net/?retryWrites=true&w=majority");
+if (process.env.MONGODB_URI) {
+  mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true});
+  MONGO_URL = process.env.MONGODB_URI
+} else {
+  mongoose.connect(MONGO_LOCAL_URL, { useNewUrlParser: true }) // local mongo url
+  MONGO_URL = MONGO_LOCAL_URL
+}
 
 var db = mongoose.connection;
 
