@@ -19,12 +19,10 @@ mongoose.Promise = global.Promise;
 const MONGO_LOCAL_URL = 'mongodb://localhost:27017/mernarticlescraper'
 
 // Connect to the Mongo DB
-if (process.env.MONGODB_URI) {
-  mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true});
-  MONGO_URL = process.env.MONGODB_URI
+if (process.env.MONGODB_CONNECTION_STRING) {
+  mongoose.connect(process.env.MONGODB_CONNECTION_STRING, { useNewUrlParser: true});
 } else {
   mongoose.connect(MONGO_LOCAL_URL, { useNewUrlParser: true }) // local mongo url
-  MONGO_URL = MONGO_LOCAL_URL
 }
 
 var db = mongoose.connection;
